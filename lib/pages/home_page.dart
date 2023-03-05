@@ -12,11 +12,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MainColor,
       body: Container(
         width: MediaQuery.of(context).size.width,
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 0),
           children: [
+            logo(),
             title(),
             button(),
             button2(),
@@ -29,16 +31,30 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget logo() {
+    return Container(
+      margin: EdgeInsets.only(top: 50),
+      child: Column(
+        children: [
+          Image.asset(
+            'assets/images/logo.png',
+            width: 207,
+            height: 100,
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget title() {
     return Container(
-      margin: EdgeInsets.only(top: 100),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'ReadMe',
+            'Menu',
             style: blackTextStyle.copyWith(
-              fontSize: 26,
+              fontSize: 36,
               fontWeight: bold,
             ),
           ),
@@ -61,17 +77,30 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pushNamed(context, '/profile');
               },
               style: TextButton.styleFrom(
-                backgroundColor: ContentColor,
+                backgroundColor: AccentColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(9),
                 ),
               ),
-              child: Text(
-                'Profile',
-                style: blackTextStyle.copyWith(
-                  fontSize: 18,
-                  fontWeight: bold,
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/menu-profile.png',
+                    width: 50,
+                    height: 50,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Profile',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 18,
+                      fontWeight: bold,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -86,17 +115,30 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pushNamed(context, '/library');
               },
               style: TextButton.styleFrom(
-                backgroundColor: ContentColor,
+                backgroundColor: AccentColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(9),
                 ),
               ),
-              child: Text(
-                'Library',
-                style: blackTextStyle.copyWith(
-                  fontSize: 18,
-                  fontWeight: bold,
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/menu-library.png',
+                    width: 50,
+                    height: 50,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Library',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 18,
+                      fontWeight: bold,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -119,17 +161,30 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pushNamed(context, '/writing1');
               },
               style: TextButton.styleFrom(
-                backgroundColor: ContentColor,
+                backgroundColor: AccentColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(9),
                 ),
               ),
-              child: Text(
-                'Writing',
-                style: blackTextStyle.copyWith(
-                  fontSize: 18,
-                  fontWeight: bold,
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/menu-writing.png',
+                    width: 50,
+                    height: 50,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Writing',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 18,
+                      fontWeight: bold,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -144,17 +199,30 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pushNamed(context, '/summary1');
               },
               style: TextButton.styleFrom(
-                backgroundColor: ContentColor,
+                backgroundColor: AccentColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(9),
                 ),
               ),
-              child: Text(
-                'Summary',
-                style: blackTextStyle.copyWith(
-                  fontSize: 18,
-                  fontWeight: bold,
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/menu-summary.png',
+                    width: 50,
+                    height: 50,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Summary',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 18,
+                      fontWeight: bold,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

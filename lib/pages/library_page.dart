@@ -12,6 +12,7 @@ class _LibraryPageState extends State<LibraryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MainColor,
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24),
@@ -35,7 +36,7 @@ class _LibraryPageState extends State<LibraryPage> {
           Text(
             'Library',
             style: blackTextStyle.copyWith(
-              fontSize: 30,
+              fontSize: 36,
               fontWeight: bold,
             ),
           ),
@@ -50,7 +51,7 @@ class _LibraryPageState extends State<LibraryPage> {
       padding: EdgeInsets.all(14),
       height: 120,
       decoration: BoxDecoration(
-        color: ContentColor,
+        color: AccentColor,
         borderRadius: BorderRadius.circular(9),
       ),
     );
@@ -62,35 +63,43 @@ class _LibraryPageState extends State<LibraryPage> {
       child: Stack(
         children: <Widget>[
           new Positioned(
-            child: Container(
-              padding: EdgeInsets.only(top: 10),
-              child: Text(
-                'Burung Ajaib',
-                style: blackTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: bold,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/library1');
+              },
+              child: Container(
+                padding: EdgeInsets.only(top: 10, left: 96),
+                child: Text(
+                  'Burung Ajaib',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 20,
+                    fontWeight: bold,
+                  ),
+                  textAlign: TextAlign.left,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              margin: EdgeInsets.only(left: 45),
-              height: 150,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: ContentColor,
-                borderRadius: BorderRadius.circular(9),
+                margin: EdgeInsets.only(left: 46),
+                height: 150,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: ContentColor,
+                  borderRadius: BorderRadius.circular(9),
+                ),
               ),
             ),
           ),
           new Positioned(
             top: 15,
             child: Container(
-              height: 120,
-              width: 120,
-              decoration: BoxDecoration(
-                color: ButtonColor,
-                borderRadius: BorderRadius.circular(9),
-              ),
-            ),
+                height: 120,
+                width: 120,
+                decoration: BoxDecoration(
+                  color: AccentColor,
+                  borderRadius: BorderRadius.circular(9),
+                ),
+                child: Image.asset(
+                  'assets/images/content-2.png',
+                  fit: BoxFit.cover,
+                )),
           ),
         ],
       ),
@@ -103,35 +112,43 @@ class _LibraryPageState extends State<LibraryPage> {
       child: Stack(
         children: <Widget>[
           new Positioned(
-            child: Container(
-              padding: EdgeInsets.only(top: 10),
-              child: Text(
-                'Kisah RajaPutri\ndan Si Raja Ular',
-                style: blackTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: bold,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/library1');
+              },
+              child: Container(
+                padding: EdgeInsets.only(top: 10, left: 96),
+                child: Text(
+                  'Kisah Raja Putri\ndan Si Raja Ular',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 20,
+                    fontWeight: bold,
+                  ),
+                  textAlign: TextAlign.left,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              margin: EdgeInsets.only(left: 45),
-              height: 150,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: ContentColor,
-                borderRadius: BorderRadius.circular(9),
+                margin: EdgeInsets.only(left: 46),
+                height: 150,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: ContentColor,
+                  borderRadius: BorderRadius.circular(9),
+                ),
               ),
             ),
           ),
           new Positioned(
             top: 15,
             child: Container(
-              height: 120,
-              width: 120,
-              decoration: BoxDecoration(
-                color: ButtonColor,
-                borderRadius: BorderRadius.circular(9),
-              ),
-            ),
+                height: 120,
+                width: 120,
+                decoration: BoxDecoration(
+                  color: AccentColor,
+                  borderRadius: BorderRadius.circular(9),
+                ),
+                child: Image.asset(
+                  'assets/images/content-1.png',
+                  fit: BoxFit.cover,
+                )),
           ),
         ],
       ),

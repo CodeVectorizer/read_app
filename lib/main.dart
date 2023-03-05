@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:read_app/pages/library1_page.dart';
 import 'package:read_app/pages/library_page.dart';
 import 'package:read_app/pages/login_page.dart';
 import 'package:read_app/pages/home_page.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/writing1': (context) => Writing1Page(),
         '/writinghome': (context) => WritingHomePage(),
         '/library': (context) => LibraryPage(),
+        '/library1': (context) => Library1Page(),
       },
     );
   }

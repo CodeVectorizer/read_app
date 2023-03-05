@@ -12,6 +12,7 @@ class _Writing1PageState extends State<Writing1Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MainColor,
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24),
@@ -28,14 +29,14 @@ class _Writing1PageState extends State<Writing1Page> {
 
   Widget title() {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.only(top: 25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
             'Writing',
             style: blackTextStyle.copyWith(
-              fontSize: 30,
+              fontSize: 36,
               fontWeight: bold,
             ),
           ),
@@ -95,7 +96,7 @@ class _Writing1PageState extends State<Writing1Page> {
           Navigator.pushNamed(context, '/writinghome');
         },
         style: TextButton.styleFrom(
-          backgroundColor: ButtonColor,
+          backgroundColor: AccentColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(9),
           ),

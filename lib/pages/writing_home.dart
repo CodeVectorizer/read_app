@@ -88,7 +88,7 @@ class _WritingHomePageState extends State<WritingHomePage> {
               height: 120,
               width: 120,
               decoration: BoxDecoration(
-                color: ButtonColor,
+                color: AccentColor,
                 borderRadius: BorderRadius.circular(9),
               ),
             ),
@@ -129,7 +129,7 @@ class _WritingHomePageState extends State<WritingHomePage> {
               height: 120,
               width: 120,
               decoration: BoxDecoration(
-                color: ButtonColor,
+                color: AccentColor,
                 borderRadius: BorderRadius.circular(9),
               ),
             ),
@@ -170,7 +170,7 @@ class _WritingHomePageState extends State<WritingHomePage> {
               height: 120,
               width: 120,
               decoration: BoxDecoration(
-                color: ButtonColor,
+                color: AccentColor,
                 borderRadius: BorderRadius.circular(9),
               ),
             ),

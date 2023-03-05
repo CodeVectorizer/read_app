@@ -12,10 +12,12 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MainColor,
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24),
           children: [
+            logo(),
             title(),
             telephoneEmail(),
             nama(),
@@ -28,16 +30,30 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  Widget logo() {
+    return Container(
+      margin: EdgeInsets.only(top: 50),
+      child: Column(
+        children: [
+          Image.asset(
+            'assets/images/logo.png',
+            width: 207,
+            height: 100,
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget title() {
     return Container(
-      margin: EdgeInsets.only(top: 100),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'ReadMe',
+            'Daftar',
             style: blackTextStyle.copyWith(
-              fontSize: 26,
+              fontSize: 36,
               fontWeight: bold,
             ),
           ),
@@ -158,7 +174,7 @@ class _RegisterPageState extends State<RegisterPage> {
           Navigator.pushNamed(context, '/');
         },
         style: TextButton.styleFrom(
-          backgroundColor: ContentColor,
+          backgroundColor: AccentColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(9),
           ),

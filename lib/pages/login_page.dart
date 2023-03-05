@@ -12,10 +12,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MainColor,
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24),
           children: [
+            logo(),
             title(),
             telephoneEmail(),
             katasandi(),
@@ -28,15 +30,29 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget logo() {
+    return Container(
+      margin: EdgeInsets.only(top: 50),
+      child: Column(
+        children: [
+          Image.asset(
+            'assets/images/logo.png',
+            width: 207,
+            height: 100,
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget title() {
     return Container(
-      margin: EdgeInsets.only(top: 100),
       child: Column(
         children: [
           Text(
-            'ReadMe',
+            'Login',
             style: blackTextStyle.copyWith(
-              fontSize: 26,
+              fontSize: 36,
               fontWeight: bold,
             ),
           ),
@@ -137,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushNamed(context, '/home');
         },
         style: TextButton.styleFrom(
-          backgroundColor: ContentColor,
+          backgroundColor: AccentColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(9),
           ),
@@ -146,6 +162,7 @@ class _LoginPageState extends State<LoginPage> {
           'Masuk',
           style: blackTextStyle.copyWith(
             fontSize: 14,
+            color: MainColor,
             fontWeight: bold,
           ),
         ),
@@ -172,6 +189,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Text(
               'Daftar',
               style: blackTextStyle.copyWith(
+                color: AccentColor,
                 fontSize: 12,
                 fontWeight: regular,
               ),

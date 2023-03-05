@@ -12,6 +12,7 @@ class _Summary1PageState extends State<Summary1Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MainColor,
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24),
@@ -35,7 +36,7 @@ class _Summary1PageState extends State<Summary1Page> {
           Text(
             'Summary',
             style: blackTextStyle.copyWith(
-              fontSize: 30,
+              fontSize: 36,
               fontWeight: bold,
             ),
           ),
@@ -46,7 +47,7 @@ class _Summary1PageState extends State<Summary1Page> {
 
   Widget judul() {
     return Container(
-      margin: EdgeInsets.only(top: 15),
+      margin: EdgeInsets.only(top: 25),
       padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: ContentColor,
@@ -96,7 +97,7 @@ class _Summary1PageState extends State<Summary1Page> {
           Navigator.pushNamed(context, '/summaryhome');
         },
         style: TextButton.styleFrom(
-          backgroundColor: ButtonColor,
+          backgroundColor: AccentColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(9),
           ),

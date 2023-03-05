@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Color MainColor = Color(0xffd9d9d9);
-Color ContentColor = Color(0xffffffff);
+Color ContentColor = Color(0xffd9d9d9);
+Color MainColor = Color(0xffffffff);
 Color FontColor = Color(0xff000000);
 Color BlockColor = Color(0xffb1dce5);
-Color ButtonColor = Color(0xffb1dce5);
+Color AccentColor = Color(0xff4ac3be);
 Color FontColor2 = Color(0xff9f9f9f);
+Color BackgroundReadColor = Color(0xffE6EFBF);
 
 TextStyle blackTextStyle = GoogleFonts.nunito(
   color: FontColor,
