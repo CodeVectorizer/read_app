@@ -4,6 +4,7 @@ import 'package:read_app/pages/library_page.dart';
 import 'package:read_app/pages/login.dart';
 // import 'package:read_app/pages/login_page.dart';
 import 'package:read_app/pages/home_page.dart';
+import 'package:read_app/pages/login_page_.dart';
 import 'package:read_app/pages/profile_page.dart';
 import 'package:read_app/pages/register_page.dart';
 import 'package:read_app/pages/summary1_page.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: new ThemeData(scaffoldBackgroundColor: const Color(0xffd9d9d9)),
       routes: {
-        '/': (context) => Login(),
+        '/': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
         '/home': (context) => HomePage(),
         '/profile': (context) => ProfilePage(),

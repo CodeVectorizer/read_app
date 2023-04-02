@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
             katasandi(),
             showpassword(),
             loginButton(),
-            signUp(),
+            // signUp(),
           ],
         ),
       ),
@@ -129,8 +129,9 @@ class _LoginPageState extends State<LoginPage> {
         borderRadius: BorderRadius.circular(9),
       ),
       child: TextFormField(
+        controller: _usernameController,
         decoration: InputDecoration.collapsed(
-          hintText: 'No Telephone/Email',
+          hintText: 'Username/Email',
           hintStyle: fontTextStyle.copyWith(
             fontSize: 16,
             fontWeight: regular,
@@ -152,6 +153,7 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           Expanded(
             child: TextFormField(
+              controller: _passwordController,
               obscureText: true,
               decoration: InputDecoration.collapsed(
                 hintText: 'Kata Sandi',
@@ -209,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
       width: double.infinity,
       child: TextButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/home');
+          _login();
         },
         style: TextButton.styleFrom(
           backgroundColor: AccentColor,
