@@ -158,7 +158,7 @@ class _HomePageState extends State<HomePage> {
             height: 120,
             child: TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/writing1');
+                Navigator.pushNamed(context, '/writinghome');
               },
               style: TextButton.styleFrom(
                 backgroundColor: AccentColor,
@@ -196,7 +196,7 @@ class _HomePageState extends State<HomePage> {
             height: 120,
             child: TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/summary1');
+                Navigator.pushNamed(context, '/summaryhome');
               },
               style: TextButton.styleFrom(
                 backgroundColor: AccentColor,

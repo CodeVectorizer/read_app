@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:read_app/config/CallApi.dart';
+import 'package:read_app/pages/home_page.dart';
 import 'package:read_app/theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,6 +14,60 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  _login() {
+    var data = {
+      'email': _usernameController.text,
+      'password': _passwordController.text,
+    };
+    CallApi().postData("login", data).then((response) async {
+      var jsonData = await json.decode(response.body);
+      if (jsonData['success']) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(jsonData['message']),
+          ),
+        );
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', jsonData['token']);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(jsonData['message']),
+          ),
+        );
+      }
+    });
+  }
+
+  loginCheck() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    if (token != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loginCheck();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -18,6 +18,7 @@ class _LibraryPageState extends State<LibraryPage> {
   var books = <BookModel>[];
   var isLoading = true;
   // method
+
   fetchData() {
     CallApi().getData('books').then((response) {
       var jsonData = json.decode(response.body);
@@ -26,7 +27,7 @@ class _LibraryPageState extends State<LibraryPage> {
         print(list);
         // set state for list
         setState(() {
-          // books = list.map((model) => BookModel.fromJson(model)).toList();
+          books = list.map((model) => BookModel.fromJson(model)).toList();
           // print('books: $books');
 
           isLoading = false;
