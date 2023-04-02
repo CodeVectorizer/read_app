@@ -50,7 +50,4 @@ class WritingModel {
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
       };
-
-  /// `dart:convert`
-  ///
 }

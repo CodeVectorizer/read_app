@@ -22,11 +22,10 @@ class _WritingHomePageState extends State<WritingHomePage> {
       if (jsonData['success']) {
         Iterable list = jsonData['data'];
         print(list);
-        // setState(() {
-        // writings =
-        // list.map((model) => WritingModel.fromJson(model)).toList();
-        // isLoading = false;
-        // });
+        setState(() {
+          writings = list.map((model) => WritingModel.fromJson(model)).toList();
+          isLoading = false;
+        });
       } else {
         print('test');
         print(jsonData['message']);

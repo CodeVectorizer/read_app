@@ -24,11 +24,9 @@ class _SummaryHomePageState extends State<SummaryHomePage> {
         Iterable list = jsonData['data'];
         print(list);
         setState(() {
+          isLoading = false;
           summaries =
               list.map((model) => SummaryModel.fromJson(model)).toList();
-
-          // print('summaries: $summaries');
-          isLoading = false;
         });
       } else {
         print('test');
@@ -61,8 +59,8 @@ class _SummaryHomePageState extends State<SummaryHomePage> {
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Content(
-                      title: summaries[index].status,
-                      description: summaries[index].status,
+                      title: 'test',
+                      description: 'test',
                     );
                   }),
         ]),
@@ -198,7 +196,7 @@ class Content extends StatelessWidget {
                   borderRadius: BorderRadius.circular(9),
                 ),
                 child: Image.asset(
-                  image!,
+                  'test',
                   fit: BoxFit.cover,
                 )),
           ),
