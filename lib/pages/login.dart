@@ -32,7 +32,9 @@ class _LoginState extends State<Login> {
             content: Text(jsonData['message']),
           ),
         );
+
         SharedPreferences prefs = await SharedPreferences.getInstance();
+
         prefs.setString('token', jsonData['token']);
         Navigator.pushReplacement(
           context,

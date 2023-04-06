@@ -12,6 +12,7 @@ import 'package:read_app/pages/summary_home.dart';
 import 'package:read_app/pages/writing1_page.dart';
 import 'package:read_app/pages/writing_home.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
