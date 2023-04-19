@@ -52,7 +52,7 @@ class _SummaryHomePageState extends State<SummaryHomePage> {
           title(),
           block(),
           this.isLoading
-              ? CircularProgressIndicator()
+              ? Center(child: CircularProgressIndicator())
               : ListView.builder(
                   itemCount: summaries.length,
                   shrinkWrap: true,
@@ -88,7 +88,7 @@ class _SummaryHomePageState extends State<SummaryHomePage> {
 
   Widget block() {
     return Container(
-      margin: EdgeInsets.only(top: 15),
+      margin: EdgeInsets.symmetric(vertical: 15),
       padding: EdgeInsets.all(14),
       height: 120,
       decoration: BoxDecoration(

@@ -13,6 +13,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: MainColor,
         body: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24),
           children: [
@@ -64,9 +65,9 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 11,
           ),
           Text(
-            'Name User',
+            'Nama User',
             style: fontTextStyle.copyWith(
-              fontSize: 14,
+              fontSize: 20,
               fontWeight: regular,
             ),
           ),
@@ -85,8 +86,8 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               Text(
                 'Accumulation',
-                style: fontTextStyle.copyWith(
-                  fontSize: 11,
+                style: blackTextStyle.copyWith(
+                  fontSize: 14,
                   fontWeight: bold,
                 ),
               ),
@@ -106,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Text(
               'Point : 0',
               textAlign: TextAlign.center,
-              style: fontTextStyle.copyWith(
+              style: blackTextStyle.copyWith(
                 fontSize: 12,
                 fontWeight: medium,
               ),
@@ -118,6 +119,53 @@ class _ProfilePageState extends State<ProfilePage> {
           Container(
             height: 44,
             width: double.infinity,
+            margin: EdgeInsets.only(bottom: 10),
+            child: TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/');
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: BlockColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(9),
+                ),
+              ),
+              child: Text(
+                'My Writings',
+                style: blackTextStyle.copyWith(
+                  fontSize: 14,
+                  fontWeight: bold,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            height: 44,
+            width: double.infinity,
+            margin: EdgeInsets.only(bottom: 10),
+            child: TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/');
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: BlockColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(9),
+                ),
+              ),
+              child: Text(
+                'My Summary',
+                style: blackTextStyle.copyWith(
+                  fontSize: 14,
+                  fontWeight: bold,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            height: 44,
+            width: double.infinity,
+            margin: EdgeInsets.only(bottom: 10),
             child: TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/');

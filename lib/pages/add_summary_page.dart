@@ -1,14 +1,58 @@
-import 'package:flutter/material.dart';
-import 'package:read_app/theme.dart';
+import 'dart:convert';
 
-class Summary1Page extends StatefulWidget {
-  const Summary1Page({super.key});
+import 'package:flutter/material.dart';
+import 'package:read_app/config/CallApi.dart';
+import 'package:read_app/pages/my_summary/my_summary_home_page.dart';
+import 'package:read_app/pages/summary/summary_home.dart';
+import 'package:read_app/theme.dart';
+// import title_text.dart
+import 'package:read_app/components/title_text_component.dart';
+
+class AddSummaryPage extends StatefulWidget {
+  final String? category;
+  AddSummaryPage({super.key, this.category});
 
   @override
-  State<Summary1Page> createState() => _Summary1PageState();
+  State<AddSummaryPage> createState() => _AddSummaryPageState();
 }
 
-class _Summary1PageState extends State<Summary1Page> {
+class _AddSummaryPageState extends State<AddSummaryPage> {
+  TextEditingController judulController = TextEditingController();
+  TextEditingController kontenController = TextEditingController();
+
+  _postData() {
+    var data = {
+      'title': judulController.text,
+      'book_id': 1,
+      'student_id': 1,
+      'content': kontenController.text,
+      'category': widget.category,
+    };
+    CallApi().postData("summaries", data).then((response) async {
+      print(response.body);
+
+      Map jsonData = await json.decode(response.body);
+
+      if (jsonData.containsKey('success')) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(jsonData['message']),
+          ),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MySummaryHomePage()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(jsonData['message']),
+          ),
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +61,9 @@ class _Summary1PageState extends State<Summary1Page> {
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24),
           children: [
-            title(),
+            TitleTextComponent(
+              text: 'Summary',
+            ),
             judul(),
             konten(),
             btnkirim(),
@@ -54,6 +100,7 @@ class _Summary1PageState extends State<Summary1Page> {
         borderRadius: BorderRadius.circular(9),
       ),
       child: TextFormField(
+        controller: judulController,
         decoration: InputDecoration.collapsed(
           hintText: 'Judul',
           hintStyle: blackTextStyle.copyWith(
@@ -76,6 +123,7 @@ class _Summary1PageState extends State<Summary1Page> {
       ),
       child: TextFormField(
         maxLines: null,
+        controller: kontenController,
         decoration: InputDecoration.collapsed(
           hintText: 'Konten',
           hintStyle: blackTextStyle.copyWith(
@@ -94,7 +142,8 @@ class _Summary1PageState extends State<Summary1Page> {
       width: double.infinity,
       child: TextButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/summaryhome');
+          // Navigator.pushNamed(context, '/summaryhome');
+          _postData();
         },
         style: TextButton.styleFrom(
           backgroundColor: AccentColor,
