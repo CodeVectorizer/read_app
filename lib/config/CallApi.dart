@@ -8,15 +8,8 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CallApi {
-  // final String url = 'https://simrs-smilingdev.000webhostapp. com/api/v1/';
-  final String url = 'http://127.0.0.1:8000/api/v1/';
   // final String _url = 'http://127.0.0.1:8000/api/';
   final String _url = 'http://192.168.195.138:8000/api/';
-
-  Future<http.Response> getPublicData(endPoint) async {
-    Response response = await http.get(Uri.parse('$url$endPoint'));
-    return response;
-  }
 
   Future<http.Response> getData(apiUrl) async {
     String? fullUrl = _url + apiUrl;

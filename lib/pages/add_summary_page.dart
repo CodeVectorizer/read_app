@@ -41,7 +41,7 @@ class _AddSummaryPageState extends State<AddSummaryPage> {
         );
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MySummaryHomePage()),
+          MaterialPageRoute(builder: (context) => MySummaryPage()),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

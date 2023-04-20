@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:read_app/models/book_model.dart';
+
 class SummaryModel {
   int? id;
   int? studentId;
@@ -8,6 +10,7 @@ class SummaryModel {
   String? status;
   DateTime? createdAt;
   DateTime? updatedAt;
+  BookModel book;
 
   SummaryModel({
     this.id,
@@ -17,6 +20,7 @@ class SummaryModel {
     this.status,
     this.createdAt,
     this.updatedAt,
+    required this.book,
   });
 
   factory SummaryModel.fromJson(Map<String, dynamic> data) => SummaryModel(
@@ -31,6 +35,7 @@ class SummaryModel {
         updatedAt: data['updated_at'] == null
             ? null
             : DateTime.parse(data['updated_at'] as String),
+        book: BookModel.fromJson(data['book'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => {
@@ -41,5 +46,6 @@ class SummaryModel {
         'status': status,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
+        'book': book.toJson(),
       };
 }

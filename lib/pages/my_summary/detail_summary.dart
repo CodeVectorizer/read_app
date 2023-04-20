@@ -7,15 +7,16 @@ import 'package:read_app/theme.dart';
 // import title_text.dart
 import 'package:read_app/components/title_text_component.dart';
 
-class AddSummaryPage extends StatefulWidget {
-  final String? category;
-  AddSummaryPage({super.key, this.category});
+class DetailSummaryPage extends StatefulWidget {
+  DetailSummaryPage({
+    super.key,
+  });
 
   @override
-  State<AddSummaryPage> createState() => _AddSummaryPageState();
+  State<DetailSummaryPage> createState() => _DetailSummaryPageState();
 }
 
-class _AddSummaryPageState extends State<AddSummaryPage> {
+class _DetailSummaryPageState extends State<DetailSummaryPage> {
   TextEditingController judulController = TextEditingController();
   TextEditingController kontenController = TextEditingController();
 
@@ -25,7 +26,6 @@ class _AddSummaryPageState extends State<AddSummaryPage> {
       'book_id': 1,
       'student_id': 1,
       'content': kontenController.text,
-      'category': widget.category,
     };
     CallApi().postData("summaries", data).then((response) async {
       print(response.body);

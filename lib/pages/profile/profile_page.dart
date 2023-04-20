@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:read_app/pages/my_summary/my_summary_home_page.dart';
+import 'package:read_app/pages/my_writing/my_writing.dart';
 import 'package:read_app/theme.dart';
+import 'package:read_app/components/title_text_component.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -17,7 +20,9 @@ class _ProfilePageState extends State<ProfilePage> {
         body: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24),
           children: [
-            title(),
+            TitleTextComponent(
+              text: 'My Profile',
+            ),
             profile(),
           ],
         ),
@@ -122,7 +127,12 @@ class _ProfilePageState extends State<ProfilePage> {
             margin: EdgeInsets.only(bottom: 10),
             child: TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyWritingPage(),
+                  ),
+                );
               },
               style: TextButton.styleFrom(
                 backgroundColor: BlockColor,
@@ -145,7 +155,12 @@ class _ProfilePageState extends State<ProfilePage> {
             margin: EdgeInsets.only(bottom: 10),
             child: TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MySummaryPage(),
+                  ),
+                );
               },
               style: TextButton.styleFrom(
                 backgroundColor: BlockColor,
@@ -168,7 +183,12 @@ class _ProfilePageState extends State<ProfilePage> {
             margin: EdgeInsets.only(bottom: 10),
             child: TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MySummaryPage(),
+                  ),
+                );
               },
               style: TextButton.styleFrom(
                 backgroundColor: BlockColor,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:read_app/pages/library/library1_page.dart';
+import 'package:read_app/pages/library/read_book.dart';
 import 'package:read_app/pages/library/library_page.dart';
 import 'package:read_app/pages/auth/login.dart';
 // import 'package:read_app/pages/login_page.dart';
@@ -12,7 +12,7 @@ import 'package:read_app/pages/my_summary/add_summary_page.dart';
 import 'package:read_app/pages/summary/summary_home.dart';
 import 'package:read_app/pages/my_writing/add_writing_page.dart';
 import 'package:read_app/pages/my_writing/choose_writing_category_page.dart';
-import 'package:read_app/pages/my_writing/writing_home.dart';
+import 'package:read_app/pages/my_writing/my_writing.dart';
 import 'package:read_app/pages/test_pdf_page.dart';
 
 void main() {
@@ -33,15 +33,15 @@ class MyApp extends StatelessWidget {
       //   '/register': (context) => RegisterPage(),
       //   '/home': (context) => HomePage(),
       //   '/profile': (context) => ProfilePage(),
-      // '/add_summary': (context) => AddSummaryPage(),
-      //   '/summaryhome': (context) => SummaryHomePage(),
-      // '/mysummaryhome': (context) => MySummaryHomePage(),
-      //   '/writing1': (context) => Writing1Page(),
-      //   '/writinghome': (context) => WritingHomePage(),
+      //   '/add_summary': (context) => AddSummaryPage(),
+      //   '/summary': (context) => SummaryHomePage(),
+      //   '/my_summary': (context) => MySummaryPage(),
+      //   '/my_writing': (context) => MyWritingPage(),
+      //   '/add_writing': (context) => AddWritingPage(),
       //   '/library': (context) => LibraryPage(),
-      //   '/library1': (context) => Library1Page(),
+      //   // '/book': (context) => ReadBookPage(),
       // },
-      home: LibraryPage(),
+      home: MySummaryPage(),
     );
   }
 }

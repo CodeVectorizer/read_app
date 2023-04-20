@@ -1,46 +1,50 @@
-import 'package:flutter/foundation.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:read_app/components/block_component.dart';
+import 'package:read_app/components/content_list_item_component.dart';
+import 'package:read_app/components/title_text_component.dart';
+import 'package:read_app/config/CallApi.dart';
 import 'package:read_app/models/categories_model.dart';
+import 'package:read_app/models/summary_model.dart';
 import 'package:read_app/pages/my_summary/add_summary_page.dart';
+import 'package:read_app/pages/my_summary/detail_summary.dart';
 import 'package:read_app/theme.dart';
 
-class MySummaryHomePage extends StatefulWidget {
-  const MySummaryHomePage({Key? key}) : super(key: key);
+class MySummaryPage extends StatefulWidget {
+  const MySummaryPage({Key? key}) : super(key: key);
 
   @override
-  State<MySummaryHomePage> createState() => _MySummaryHomePageState();
+  State<MySummaryPage> createState() => _MySummaryPageState();
 }
 
-class _MySummaryHomePageState extends State<MySummaryHomePage> {
+class _MySummaryPageState extends State<MySummaryPage> {
+  // list variable
+  var summaries = <SummaryModel>[];
   var isLoading = true;
-  var categories = <CategoryModel>[];
+  // method
 
-  var categoriesData = [
-    {
-      'id': 1,
-      'name': 'Cerpen',
-      'image': 'assets/images/cerpen.png',
-    },
-    {
-      'id': 2,
-      'name': 'Artikel',
-      'image': 'assets/images/artikel.png',
-    },
-    {
-      'id': 3,
-      'name': 'Puisi',
-      'image': 'assets/images/puisi.png',
-    }
-  ];
+  fetchData() {
+    CallApi().getData('summaries').then((response) {
+      var jsonData = json.decode(response.body);
+      if (jsonData['success']) {
+        Iterable list = jsonData['data'];
+        setState(() {
+          summaries =
+              list.map((model) => SummaryModel.fromJson(model)).toList();
 
-  void initState() {
-    super.initState();
-    setState(() {
-      isLoading = false;
-      categories = categoriesData
-          .map((category) => CategoryModel.fromJson(category))
-          .toList();
+          isLoading = false;
+        });
+      } else {
+        print(jsonData['message']);
+      }
     });
+  }
+
+  @override
+  void initState() {
+    fetchData();
+    super.initState();
   }
 
   @override
@@ -51,125 +55,32 @@ class _MySummaryHomePageState extends State<MySummaryHomePage> {
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24),
           children: [
-            title(),
+            TitleTextComponent(
+              text: 'My Summary',
+            ),
+            BlockComponent(),
             this.isLoading
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
+                ? Center(child: CircularProgressIndicator())
                 : ListView.builder(
-                    itemCount: categories.length,
+                    itemCount: summaries.length,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return Content(
-                        title: categories[index].name[0].toUpperCase() +
-                            categories[index].name.substring(1),
-                        image: categories[index].image,
-                        // description: categories[index].description,
+                      return ContentListItemComponent(
+                        title: summaries[index].book.title,
+                        image: summaries[index].book.cover,
+                        description: summaries[index].content,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailSummaryPage(),
+                              ));
+                        },
                       );
                     }),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget title() {
-    return Container(
-      margin: EdgeInsets.only(top: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Text(
-            'My Writing',
-            style: blackTextStyle.copyWith(
-              fontSize: 30,
-              fontWeight: bold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget block() {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 15),
-      padding: EdgeInsets.all(14),
-      height: 120,
-      decoration: BoxDecoration(
-        color: ContentColor,
-        borderRadius: BorderRadius.circular(9),
-      ),
-    );
-  }
-}
-
-class Content extends StatelessWidget {
-  final String? title;
-  final String? image;
-  final String? description;
-
-  const Content({
-    Key? key,
-    this.title,
-    this.image,
-    this.description,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 40),
-      child: Stack(
-        children: <Widget>[
-          new Positioned(
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            AddSummaryPage(category: title ?? '')));
-              },
-              child: Container(
-                padding: EdgeInsets.only(top: 10, left: 96),
-                child: Text(
-                  title!,
-                  style: blackTextStyle.copyWith(
-                    fontSize: 20,
-                    fontWeight: bold,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                margin: EdgeInsets.only(left: 46),
-                height: 150,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: ContentColor,
-                  borderRadius: BorderRadius.circular(9),
-                ),
-              ),
-            ),
-          ),
-          new Positioned(
-            top: 15,
-            child: Container(
-                height: 120,
-                width: 120,
-                decoration: BoxDecoration(
-                  color: BlockColor,
-                  borderRadius: BorderRadius.circular(9),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Image.asset(
-                    image!,
-                    fit: BoxFit.cover,
-                  ),
-                )),
-          ),
-        ],
       ),
     );
   }

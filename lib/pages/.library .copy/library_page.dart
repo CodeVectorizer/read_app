@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:read_app/config/CallApi.dart';
 import 'package:read_app/models/book_model.dart';
-import 'package:read_app/pages/library/book_page.dart';
+import 'package:read_app/pages/library/read_book.dart';
 import 'package:read_app/theme.dart';
 import 'package:read_app/components/title_text_component.dart';
 import 'package:read_app/components/content_list_item_component.dart';
@@ -72,7 +72,7 @@ class _LibraryPageState extends State<LibraryPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    BookPage(book_id: books[index].id),
+                                    Library1Page(book_id: books[index].id),
                               ));
                         },
                       );

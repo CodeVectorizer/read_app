@@ -7,14 +7,14 @@ import 'package:read_app/config/CallApi.dart';
 import 'package:read_app/models/writing_model.dart';
 import 'package:read_app/theme.dart';
 
-class WritingHomePage extends StatefulWidget {
-  const WritingHomePage({super.key});
+class MyWritingPage extends StatefulWidget {
+  const MyWritingPage({super.key});
 
   @override
-  State<WritingHomePage> createState() => _WritingHomePageState();
+  State<MyWritingPage> createState() => _MyWritingPageState();
 }
 
-class _WritingHomePageState extends State<WritingHomePage> {
+class _MyWritingPageState extends State<MyWritingPage> {
   var writings = <WritingModel>[];
   var isLoading = true;
   // method
@@ -65,6 +65,13 @@ class _WritingHomePageState extends State<WritingHomePage> {
                         title: writings[index].title,
                         image: writings[index].cover,
                         description: writings[index].description,
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/detail',
+                            arguments: writings[index],
+                          );
+                        },
                       );
                     }),
           ],
