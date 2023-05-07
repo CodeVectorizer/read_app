@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:read_app/config/CallApi.dart';
 import 'package:read_app/models/book_model.dart';
-import 'package:read_app/models/summary_model.dart';
+import 'package:read_app/models/writing_model.dart';
 import 'package:read_app/theme.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,30 +11,30 @@ import 'package:read_app/components/title_text_component.dart';
 import 'package:http/http.dart' as http;
 import 'package:read_app/utils/get_image.dart';
 
-class DetailSummaryPage extends StatefulWidget {
-  final int? summary_id;
-  DetailSummaryPage({super.key, required this.summary_id});
+class DetailWritingPage extends StatefulWidget {
+  final int? Writing_id;
+  DetailWritingPage({super.key, required this.Writing_id});
 
   @override
-  State<DetailSummaryPage> createState() => _DetailSummaryPageState();
+  State<DetailWritingPage> createState() => _DetailWritingPageState();
 }
 
-class _DetailSummaryPageState extends State<DetailSummaryPage> {
-  BookModel book = BookModel();
-  var summary = SummaryModel();
+class _DetailWritingPageState extends State<DetailWritingPage> {
+  var writing = WritingModel();
 
   File? file;
   var isLoading = true;
 
-  fetchData(int? summary_id) async {
-    CallApi().getData('summaries/$summary_id').then((response) async {
+  fetchData(int? Writing_id) async {
+    CallApi().getData('writings/$Writing_id').then((response) async {
       var jsonData = json.decode(response.body);
+      print(jsonData);
       if (jsonData['success']) {
         setState(() {
-          book = BookModel.fromJson(jsonData['data']);
+          writing = WritingModel.fromJson(jsonData['data']);
         });
 
-        String url = "$book.file";
+        String url = "$writing.file";
         // final http.Response response = await http.get(Uri.parse(book?.file));
         final bytes = response.bodyBytes;
 
@@ -48,7 +48,6 @@ class _DetailSummaryPageState extends State<DetailSummaryPage> {
         });
 
         setState(() {
-          summary = SummaryModel.fromJson(jsonData['data']);
           isLoading = false;
         });
       } else {
@@ -59,7 +58,7 @@ class _DetailSummaryPageState extends State<DetailSummaryPage> {
 
   @override
   void initState() {
-    fetchData(widget.summary_id);
+    fetchData(widget.Writing_id);
     super.initState();
   }
 
@@ -76,10 +75,12 @@ class _DetailSummaryPageState extends State<DetailSummaryPage> {
               FutureBuilder(
                 future: getImgUrl(null),
                 builder: (context, snapshot) {
-                  if (summary.book?.cover != null) {
+                  if (writing.cover != null) {
                     return Image.network(
-                      summary.book?.cover ?? '',
+                      writing.cover!,
                       fit: BoxFit.cover,
+                      height: 200,
+                      width: double.infinity,
                     );
                   } else if (snapshot.hasError) {
                     return Center(
@@ -106,13 +107,13 @@ class _DetailSummaryPageState extends State<DetailSummaryPage> {
                 height: 30,
               ),
               TitleTextComponent(
-                text: 'Summarize of ${summary.book?.title ?? '-'}',
+                text: writing.title ?? '',
               ),
               SizedBox(
                 height: 20,
               ),
               Text(
-                summary.content ?? '',
+                writing.content ?? '',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 16,
@@ -133,7 +134,7 @@ class _DetailSummaryPageState extends State<DetailSummaryPage> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            'Summary',
+            'Writing',
             style: blackTextStyle.copyWith(
               fontSize: 36,
               fontWeight: bold,

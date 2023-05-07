@@ -7,8 +7,9 @@ import 'package:read_app/components/text_form_field_component.dart';
 import 'package:read_app/components/button_submit_component.dart';
 import 'package:read_app/components/title_text_component.dart';
 import 'package:read_app/config/CallApi.dart';
-import 'package:read_app/pages/my_summary/my_summary_home_page.dart';
+import 'package:read_app/pages/my_summary/my_summary_page.dart';
 import 'package:read_app/pages/my_writing/choose_writing_category_page.dart';
+import 'package:read_app/pages/my_writing/my_writing.dart';
 import 'package:read_app/theme.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -28,15 +29,11 @@ class _AddWritingPageState extends State<AddWritingPage> {
   TextEditingController _contentController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
 
-  // This is the image picker
   final _picker = ImagePicker();
-  // Implementing the image picker
   Future<void> _openImagePicker() async {
     final XFile? pickedImage =
         await _picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
-      // save to folder and get path
-
       setState(() {
         _image = File(pickedImage.path);
         _imageFile = PickedFile(pickedImage.path);
@@ -47,7 +44,6 @@ class _AddWritingPageState extends State<AddWritingPage> {
   _postData() {
     Map<String, String> data = {
       'title': _titleController.text,
-      'book_id': '1',
       'student_id': '1',
       'content': _contentController.text,
       'category': widget.category!,
@@ -68,7 +64,7 @@ class _AddWritingPageState extends State<AddWritingPage> {
         );
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ChooseWritingCategoryPage()),
+          MaterialPageRoute(builder: (context) => MyWritingPage()),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

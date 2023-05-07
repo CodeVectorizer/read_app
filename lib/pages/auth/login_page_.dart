@@ -31,7 +31,10 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
         SharedPreferences prefs = await SharedPreferences.getInstance();
+        print(jsonData);
         prefs.setString('token', jsonData['token']);
+        prefs.setString(
+            'student_id', jsonData['data']['student_id'].toString());
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

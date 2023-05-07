@@ -8,6 +8,7 @@ import 'package:read_app/theme.dart';
 import 'package:read_app/components/title_text_component.dart';
 import 'package:read_app/components/content_list_item_component.dart';
 import 'package:read_app/components/block_component.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});
@@ -17,13 +18,14 @@ class LibraryPage extends StatefulWidget {
 }
 
 class _LibraryPageState extends State<LibraryPage> {
-  // list variable
   var books = <BookModel>[];
   var isLoading = true;
-  // method
 
-  fetchData() {
-    CallApi().getData('books').then((response) {
+  fetchData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? studentId = preferences.get('student_id').toString();
+
+    CallApi().getData('books/$studentId/all').then((response) {
       var jsonData = json.decode(response.body);
       if (jsonData['success']) {
         Iterable list = jsonData['data'];
@@ -63,10 +65,12 @@ class _LibraryPageState extends State<LibraryPage> {
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
+                      print(books[index].is_read);
                       return ContentListItemComponent(
                         title: books[index].title,
                         image: books[index].cover,
                         description: books[index].description,
+                        isRead: books[index].is_read,
                         onTap: () {
                           Navigator.push(
                               context,

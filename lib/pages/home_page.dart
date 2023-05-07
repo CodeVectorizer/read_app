@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:read_app/components/title_text_component.dart';
+
 import 'package:read_app/theme.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,14 +16,48 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: MainColor,
       body: Container(
-        width: MediaQuery.of(context).size.width,
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 0),
           children: [
             logo(),
-            title(),
-            button(),
-            button2(),
+            TitleTextComponent(
+              text: 'Menu',
+              isCenter: true,
+            ),
+            SizedBox(
+              height: 60,
+            ),
+            Container(
+              height: 400,
+              child: GridView.count(
+                crossAxisCount: 2,
+                mainAxisSpacing: 10,
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                crossAxisSpacing: 10,
+                children: [
+                  ButtonMenu(
+                    name: 'Profile',
+                    image: 'assets/images/menu-profile.png',
+                    routeName: '/profile',
+                  ),
+                  ButtonMenu(
+                    name: 'Library',
+                    image: 'assets/images/menu-library.png',
+                    routeName: '/library',
+                  ),
+                  ButtonMenu(
+                    name: 'Summary',
+                    image: 'assets/images/menu-summary.png',
+                    routeName: '/summary',
+                  ),
+                  ButtonMenu(
+                    name: 'Writing',
+                    image: 'assets/images/menu-writing.png',
+                    routeName: '/writing',
+                  ),
+                ],
+              ),
+            ),
             SizedBox(
               height: 35,
             ),
@@ -62,171 +98,56 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
 
-  Widget button() {
-    return Container(
-      margin: EdgeInsets.only(top: 110),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 2.5,
-            height: 120,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/profile');
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: AccentColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/menu-profile.png',
-                    width: 50,
-                    height: 50,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Profile',
-                    style: blackTextStyle.copyWith(
-                      fontSize: 18,
-                      fontWeight: bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 15,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 2.5,
-            height: 120,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/library');
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: AccentColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/menu-library.png',
-                    width: 50,
-                    height: 50,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Library',
-                    style: blackTextStyle.copyWith(
-                      fontSize: 18,
-                      fontWeight: bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+class ButtonMenu extends StatelessWidget {
+  String? image;
 
-  Widget button2() {
-    return Container(
-      margin: EdgeInsets.only(top: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 2.5,
-            height: 120,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/writinghome');
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: AccentColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/menu-writing.png',
-                    width: 50,
-                    height: 50,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Writing',
-                    style: blackTextStyle.copyWith(
-                      fontSize: 18,
-                      fontWeight: bold,
-                    ),
-                  ),
-                ],
+  String? routeName;
+  String? name;
+
+  ButtonMenu({
+    Key? key,
+    this.image,
+    this.routeName,
+    this.name,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: 100,
+      child: TextButton(
+        onPressed: () {
+          Navigator.pushNamed(context, routeName!);
+        },
+        style: TextButton.styleFrom(
+          backgroundColor: AccentColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(9),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              image!,
+              width: 50,
+              height: 50,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              name!,
+              style: blackTextStyle.copyWith(
+                fontSize: 18,
+                fontWeight: bold,
               ),
             ),
-          ),
-          SizedBox(
-            width: 15,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 2.5,
-            height: 120,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/summaryhome');
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: AccentColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/menu-summary.png',
-                    width: 50,
-                    height: 50,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Summary',
-                    style: blackTextStyle.copyWith(
-                      fontSize: 18,
-                      fontWeight: bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

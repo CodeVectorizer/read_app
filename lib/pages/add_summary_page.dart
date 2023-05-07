@@ -2,15 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:read_app/config/CallApi.dart';
-import 'package:read_app/pages/my_summary/my_summary_home_page.dart';
+import 'package:read_app/models/book_model.dart';
+import 'package:read_app/pages/my_summary/my_summary_page.dart';
 import 'package:read_app/pages/summary/summary_home.dart';
 import 'package:read_app/theme.dart';
-// import title_text.dart
+
 import 'package:read_app/components/title_text_component.dart';
 
 class AddSummaryPage extends StatefulWidget {
-  final String? category;
-  AddSummaryPage({super.key, this.category});
+  final int? book_id;
+
+  AddSummaryPage({super.key, this.book_id});
 
   @override
   State<AddSummaryPage> createState() => _AddSummaryPageState();
@@ -20,37 +22,60 @@ class _AddSummaryPageState extends State<AddSummaryPage> {
   TextEditingController judulController = TextEditingController();
   TextEditingController kontenController = TextEditingController();
 
+  BookModel book = BookModel();
+  bool isLoading = true;
+
   _postData() {
     var data = {
       'title': judulController.text,
-      'book_id': 1,
+      'book_id': widget.book_id,
       'student_id': 1,
       'content': kontenController.text,
-      'category': widget.category,
     };
-    CallApi().postData("summaries", data).then((response) async {
-      print(response.body);
 
-      Map jsonData = await json.decode(response.body);
+    CallApi().postData("summaries", data).then(
+      (response) async {
+        Map jsonData = await json.decode(response.body);
+        if (jsonData.containsKey('success')) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(jsonData['message']),
+            ),
+          );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MySummaryPage()),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(jsonData['message']),
+            ),
+          );
+        }
+      },
+    );
+  }
 
-      if (jsonData.containsKey('success')) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(jsonData['message']),
-          ),
-        );
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MySummaryPage()),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(jsonData['message']),
-          ),
-        );
-      }
-    });
+  fetchData(int? book_id) async {
+    CallApi().getData('books/$book_id').then(
+      (response) async {
+        var jsonData = json.decode(response.body);
+        if (jsonData['success']) {
+          setState(() {
+            book = BookModel.fromJson(jsonData['data']);
+            isLoading = false;
+          });
+        } else {
+          print(jsonData['message']);
+        }
+      },
+    );
+  }
+
+  void initState() {
+    super.initState();
+    fetchData(widget.book_id);
   }
 
   @override
@@ -62,7 +87,7 @@ class _AddSummaryPageState extends State<AddSummaryPage> {
           padding: EdgeInsets.symmetric(horizontal: 24),
           children: [
             TitleTextComponent(
-              text: 'Summary',
+              text: 'Summars',
             ),
             judul(),
             konten(),

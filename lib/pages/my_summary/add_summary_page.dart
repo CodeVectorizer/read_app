@@ -1,15 +1,20 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:read_app/components/button_submit_component.dart';
+import 'package:read_app/components/text_form_field_component.dart';
 import 'package:read_app/config/CallApi.dart';
-import 'package:read_app/pages/my_summary/my_summary_home_page.dart';
+import 'package:read_app/models/book.dart';
+import 'package:read_app/models/book_model.dart';
+import 'package:read_app/pages/my_summary/my_summary_page.dart';
+import 'package:http/http.dart' as http;
 import 'package:read_app/theme.dart';
 // import title_text.dart
 import 'package:read_app/components/title_text_component.dart';
 
 class AddSummaryPage extends StatefulWidget {
-  final String? category;
-  AddSummaryPage({super.key, this.category});
+  final int? book_id;
+  AddSummaryPage({super.key, this.book_id});
 
   @override
   State<AddSummaryPage> createState() => _AddSummaryPageState();
@@ -19,13 +24,15 @@ class _AddSummaryPageState extends State<AddSummaryPage> {
   TextEditingController judulController = TextEditingController();
   TextEditingController kontenController = TextEditingController();
 
+  BookModel book = BookModel();
+  bool isLoading = true;
+
   _postData() {
     var data = {
       'title': judulController.text,
-      'book_id': 1,
+      'book_id': widget.book_id,
       'student_id': 1,
       'content': kontenController.text,
-      'category': widget.category,
     };
     CallApi().postData("summaries", data).then((response) async {
       print(response.body);
@@ -52,8 +59,28 @@ class _AddSummaryPageState extends State<AddSummaryPage> {
     });
   }
 
+  fetchData(int? book_id) async {
+    CallApi().getData('books/$book_id').then((response) async {
+      var jsonData = json.decode(response.body);
+      if (jsonData['success']) {
+        setState(() {
+          book = BookModel.fromJson(jsonData['data']);
+          isLoading = false;
+        });
+      } else {
+        print(jsonData['message']);
+      }
+    });
+  }
+
+  void initState() {
+    super.initState();
+    fetchData(widget.book_id);
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(book);
     return Scaffold(
       backgroundColor: MainColor,
       body: SafeArea(
@@ -63,9 +90,19 @@ class _AddSummaryPageState extends State<AddSummaryPage> {
             TitleTextComponent(
               text: 'Summary',
             ),
-            judul(),
-            konten(),
-            btnkirim(),
+            TextFormFieldComponent(
+              textEditingController: judulController,
+              text: 'Judul',
+            ),
+            TextFormFieldComponent(
+              textEditingController: kontenController,
+              text: 'Konten',
+              isTextArea: true,
+            ),
+            ButtonSubmitComponent(
+              text: 'Submit',
+              onPressed: _postData,
+            ),
           ],
         ),
       ),

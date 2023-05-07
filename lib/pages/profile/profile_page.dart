@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:read_app/pages/my_summary/my_summary_home_page.dart';
+import 'package:read_app/config/CallApi.dart';
+import 'package:read_app/models/student_model.dart';
+import 'package:read_app/pages/auth/login_page_.dart';
+import 'package:read_app/pages/my_summary/my_summary_page.dart';
 import 'package:read_app/pages/my_writing/my_writing.dart';
 import 'package:read_app/theme.dart';
 import 'package:read_app/components/title_text_component.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,6 +18,51 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  StudentModel student = StudentModel();
+
+  bool isLoading = true;
+  bool _loading = false;
+  double? _progressValue;
+
+  fetchData() async {
+    print('test');
+
+    CallApi().getData('students/1').then((response) async {
+      var jsonData = json.decode(response.body);
+      if (jsonData['success']) {
+        setState(() {
+          student = StudentModel.fromJson(jsonData['data']);
+        });
+        setState(() {
+          isLoading = false;
+          _progressValue = student.point?.toDouble();
+          print(_progressValue);
+        });
+      } else {
+        print(jsonData['message']);
+      }
+    });
+  }
+
+  void signOut() async {
+    setState(() {
+      _loading = true;
+    });
+    await Future.delayed(Duration(seconds: 3));
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+  }
+
+  @override
+  void initState() {
+    _loading = true;
+    _progressValue = 0.0;
+    fetchData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -62,15 +113,19 @@ class _ProfilePageState extends State<ProfilePage> {
           SizedBox(
             height: 22,
           ),
-          Image.asset(
-            'assets/images/rusky.png',
-            width: 110,
+          Container(
+            height: 160,
+            width: 160,
+            child: CircleAvatar(
+              radius: 100,
+              backgroundImage: AssetImage('assets/images/avatar.jpg'),
+            ),
           ),
           SizedBox(
             height: 11,
           ),
           Text(
-            'Nama User',
+            student.user?.name ?? '',
             style: fontTextStyle.copyWith(
               fontSize: 20,
               fontWeight: regular,
@@ -79,13 +134,34 @@ class _ProfilePageState extends State<ProfilePage> {
           SizedBox(
             height: 12,
           ),
-          Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: BlockColor,
-              borderRadius: BorderRadius.circular(9),
+          Center(
+            child: Container(
+              padding: EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: LinearProgressIndicator(
+                      minHeight: 20,
+                      backgroundColor: BlockColor,
+                      valueColor:
+                          new AlwaysStoppedAnimation<Color>(AccentColor),
+                      value: _progressValue! / 100,
+                    ),
+                  ),
+                  Text(_progressValue!.toInt().toString() + ' Point'),
+                ],
+              ),
             ),
           ),
+          // Container(
+          //   padding: EdgeInsets.all(8),
+          //   decoration: BoxDecoration(
+          //     color: BlockColor,
+          //     borderRadius: BorderRadius.circular(9),
+          //   ),
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -110,7 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
               borderRadius: BorderRadius.circular(9),
             ),
             child: Text(
-              'Point : 0',
+              'Point : ${student.point}',
               textAlign: TextAlign.center,
               style: blackTextStyle.copyWith(
                 fontSize: 12,
@@ -183,12 +259,7 @@ class _ProfilePageState extends State<ProfilePage> {
             margin: EdgeInsets.only(bottom: 10),
             child: TextButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MySummaryPage(),
-                  ),
-                );
+                signOut();
               },
               style: TextButton.styleFrom(
                 backgroundColor: BlockColor,

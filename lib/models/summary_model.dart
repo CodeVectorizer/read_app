@@ -10,7 +10,7 @@ class SummaryModel {
   String? status;
   DateTime? createdAt;
   DateTime? updatedAt;
-  BookModel book;
+  BookModel? book;
 
   SummaryModel({
     this.id,
@@ -20,7 +20,7 @@ class SummaryModel {
     this.status,
     this.createdAt,
     this.updatedAt,
-    required this.book,
+    this.book,
   });
 
   factory SummaryModel.fromJson(Map<String, dynamic> data) => SummaryModel(
@@ -46,6 +46,6 @@ class SummaryModel {
         'status': status,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
-        'book': book.toJson(),
+        'book': book?.toJson(),
       };
 }

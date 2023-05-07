@@ -5,7 +5,7 @@ import 'package:read_app/pages/auth/login.dart';
 // import 'package:read_app/pages/login_page.dart';
 import 'package:read_app/pages/home_page.dart';
 import 'package:read_app/pages/auth/login_page_.dart';
-import 'package:read_app/pages/my_summary/my_summary_home_page.dart';
+import 'package:read_app/pages/my_summary/my_summary_page.dart';
 import 'package:read_app/pages/profile/profile_page.dart';
 import 'package:read_app/pages/auth/register_page.dart';
 import 'package:read_app/pages/my_summary/add_summary_page.dart';
@@ -28,20 +28,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: new ThemeData(scaffoldBackgroundColor: const Color(0xffd9d9d9)),
-      // routes: {
-      //   '/': (context) => LoginPage(),
-      //   '/register': (context) => RegisterPage(),
-      //   '/home': (context) => HomePage(),
-      //   '/profile': (context) => ProfilePage(),
-      //   '/add_summary': (context) => AddSummaryPage(),
-      //   '/summary': (context) => SummaryHomePage(),
-      //   '/my_summary': (context) => MySummaryPage(),
-      //   '/my_writing': (context) => MyWritingPage(),
-      //   '/add_writing': (context) => AddWritingPage(),
-      //   '/library': (context) => LibraryPage(),
-      //   // '/book': (context) => ReadBookPage(),
-      // },
-      home: MySummaryPage(),
+      routes: {
+        '/': (context) => LoginPage(),
+        '/register': (context) => RegisterPage(),
+        '/home': (context) => HomePage(),
+        '/add_summary': (context) => AddSummaryPage(),
+        '/profile': (context) => ProfilePage(),
+        '/summary': (context) => MySummaryPage(),
+        '/library': (context) => LibraryPage(),
+        '/writing': (context) => MyWritingPage(),
+        '/my_summary': (context) => MySummaryPage(),
+        '/add_writing': (context) => AddWritingPage(),
+        // '/book': (context) => ReadBookPage(),
+      },
+      // home: summary(),
     );
   }
 }

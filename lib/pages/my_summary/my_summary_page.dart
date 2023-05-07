@@ -67,14 +67,15 @@ class _MySummaryPageState extends State<MySummaryPage> {
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return ContentListItemComponent(
-                        title: summaries[index].book.title,
-                        image: summaries[index].book.cover,
+                        title: summaries[index].book?.title,
+                        image: summaries[index].book?.cover,
                         description: summaries[index].content,
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DetailSummaryPage(),
+                                builder: (context) => DetailSummaryPage(
+                                    summary_id: summaries[index].id),
                               ));
                         },
                       );

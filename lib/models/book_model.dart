@@ -12,6 +12,7 @@ class BookModel {
   String? description;
   DateTime? createdAt;
   DateTime? updatedAt;
+  bool? is_read;
 
   BookModel({
     this.id,
@@ -25,6 +26,7 @@ class BookModel {
     this.description,
     this.createdAt,
     this.updatedAt,
+    this.is_read,
   });
 
   factory BookModel.fromJson(Map<String, dynamic> json) => BookModel(
@@ -43,6 +45,7 @@ class BookModel {
         updatedAt: json['updated_at'] == null
             ? null
             : DateTime.parse(json['updated_at'] as String),
+        is_read: json['is_read'] as bool?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -57,5 +60,6 @@ class BookModel {
         'description': description,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
+        'is_read': is_read,
       };
 }

@@ -4,12 +4,12 @@ import 'package:async/async.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CallApi {
   // final String _url = 'http://127.0.0.1:8000/api/';
-  final String _url = 'http://192.168.195.138:8000/api/';
+  final String _url = 'http://192.168.1.45:8000/api/';
+  // final String _url = 'http://192.168.250.138:8000/api/';
 
   Future<http.Response> getData(apiUrl) async {
     String? fullUrl = _url + apiUrl;

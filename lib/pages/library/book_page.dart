@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:read_app/config/CallApi.dart';
 import 'package:http/http.dart' as http;
 import 'package:read_app/models/book_model.dart';
+import 'package:read_app/pages/my_summary/add_summary_page.dart';
 import 'package:read_app/theme.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:path/path.dart';
@@ -66,6 +67,21 @@ class Book_PageState extends State<BookPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AddSummaryPage(
+                        book_id: book.id,
+                      )));
+        },
+        backgroundColor: AccentColor,
+        child: Icon(
+          Icons.check,
+          color: MainColor,
+        ),
+      ),
       backgroundColor: BackgroundReadColor,
       body: SafeArea(
         child: isLoading

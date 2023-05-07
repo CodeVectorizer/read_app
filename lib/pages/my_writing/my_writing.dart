@@ -1,10 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:read_app/components/block_component.dart';
 import 'package:read_app/components/content_list_item_component.dart';
 import 'package:read_app/components/title_text_component.dart';
 import 'package:read_app/config/CallApi.dart';
 import 'package:read_app/models/writing_model.dart';
+import 'package:read_app/pages/my_summary/detail_summary.dart';
+import 'package:read_app/pages/my_writing/choose_writing_category_page.dart';
+import 'package:read_app/pages/my_writing/detail_writing.dart';
 import 'package:read_app/theme.dart';
 
 class MyWritingPage extends StatefulWidget {
@@ -44,6 +48,16 @@ class _MyWritingPageState extends State<MyWritingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MainColor,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChooseWritingCategoryPage()));
+        },
+        child: Icon(Icons.add),
+        backgroundColor: AccentColor,
+      ),
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24),
@@ -51,7 +65,7 @@ class _MyWritingPageState extends State<MyWritingPage> {
             TitleTextComponent(
               text: 'My Writings',
             ),
-            block(),
+            BlockComponent(),
             this.isLoading
                 ? Center(
                     child: CircularProgressIndicator(),
@@ -62,14 +76,19 @@ class _MyWritingPageState extends State<MyWritingPage> {
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return ContentListItemComponent(
+                        isUsingImage: false,
                         title: writings[index].title,
                         image: writings[index].cover,
                         description: writings[index].description,
+                        status: writings[index].status,
                         onTap: () {
-                          Navigator.pushNamed(
+                          Navigator.push(
                             context,
-                            '/detail',
-                            arguments: writings[index],
+                            MaterialPageRoute(
+                              builder: (context) => DetailWritingPage(
+                                Writing_id: writings[index].id,
+                              ),
+                            ),
                           );
                         },
                       );

@@ -11,6 +11,7 @@ class TitleTextComponent extends StatelessWidget {
   final TextAlign? textAlign;
   final TextOverflow? overflow;
   final int? maxLines;
+  final bool isCenter;
 
   TitleTextComponent({
     this.text,
@@ -20,6 +21,7 @@ class TitleTextComponent extends StatelessWidget {
     this.textAlign,
     this.overflow,
     this.maxLines,
+    this.isCenter = false,
   });
 
   @override
@@ -27,7 +29,8 @@ class TitleTextComponent extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment:
+            isCenter ? CrossAxisAlignment.center : CrossAxisAlignment.end,
         children: [
           Text(
             text!,
