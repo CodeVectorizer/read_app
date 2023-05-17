@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:read_app/theme.dart';
 // import title_text.dart
 import 'package:read_app/components/title_text_component.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddSummaryPage extends StatefulWidget {
   final int? book_id;
@@ -27,11 +28,14 @@ class _AddSummaryPageState extends State<AddSummaryPage> {
   BookModel book = BookModel();
   bool isLoading = true;
 
-  _postData() {
+  _postData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? studentId = preferences.get('student_id').toString();
+
     var data = {
       'title': judulController.text,
       'book_id': widget.book_id,
-      'student_id': 1,
+      'student_id': studentId,
       'content': kontenController.text,
     };
     CallApi().postData("summaries", data).then((response) async {

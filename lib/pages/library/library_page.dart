@@ -71,6 +71,7 @@ class _LibraryPageState extends State<LibraryPage> {
                         image: books[index].cover,
                         description: books[index].description,
                         isRead: books[index].is_read,
+                        status: books[index].author,
                         onTap: () {
                           Navigator.push(
                               context,

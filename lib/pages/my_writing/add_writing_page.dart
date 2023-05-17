@@ -12,6 +12,7 @@ import 'package:read_app/pages/my_writing/choose_writing_category_page.dart';
 import 'package:read_app/pages/my_writing/my_writing.dart';
 import 'package:read_app/theme.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddWritingPage extends StatefulWidget {
   final String? category;
@@ -22,38 +23,25 @@ class AddWritingPage extends StatefulWidget {
 }
 
 class _AddWritingPageState extends State<AddWritingPage> {
-  File? _image = null;
-  PickedFile _imageFile = PickedFile('');
+  // File? _image = null;
+  // PickedFile _imageFile = PickedFile('');
 
   TextEditingController _titleController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
 
-  final _picker = ImagePicker();
-  Future<void> _openImagePicker() async {
-    final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      setState(() {
-        _image = File(pickedImage.path);
-        _imageFile = PickedFile(pickedImage.path);
-      });
-    }
-  }
+  _postData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? studentId = preferences.get('student_id').toString();
 
-  _postData() {
     Map<String, String> data = {
       'title': _titleController.text,
-      'student_id': '1',
+      'student_id': studentId,
       'content': _contentController.text,
       'category': widget.category!,
       'description': _descriptionController.text,
     };
-    CallApi()
-        .postMultipartData("writings", data, _imageFile)
-        .then((Response response) async {
-      print(response.body);
-
+    CallApi().postData("writings", data).then((Response response) async {
       Map jsonData = await json.decode(response.body);
 
       if (jsonData.containsKey('success')) {
@@ -86,18 +74,6 @@ class _AddWritingPageState extends State<AddWritingPage> {
           children: [
             TitleTextComponent(
               text: 'Add Writing',
-            ),
-            GestureDetector(
-              onTap: _openImagePicker,
-              child: Container(
-                alignment: Alignment.center,
-                width: double.infinity,
-                height: 300,
-                color: Colors.grey[300],
-                child: _image != null
-                    ? Image.file(_image!, fit: BoxFit.cover)
-                    : const Text('Please select an image'),
-              ),
             ),
             TextFormFieldComponent(
               textEditingController: _titleController,

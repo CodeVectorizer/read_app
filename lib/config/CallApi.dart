@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CallApi {
   // final String _url = 'http://127.0.0.1:8000/api/';
-  final String _url = 'http://192.168.1.45:8000/api/';
+  final String _url = 'https://readmeapp.my.id/api/';
   // final String _url = 'http://192.168.250.138:8000/api/';
 
   Future<http.Response> getData(apiUrl) async {

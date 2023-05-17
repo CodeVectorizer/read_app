@@ -25,9 +25,10 @@ class _ProfilePageState extends State<ProfilePage> {
   double? _progressValue;
 
   fetchData() async {
-    print('test');
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? studentId = preferences.get('student_id').toString();
 
-    CallApi().getData('students/1').then((response) async {
+    CallApi().getData('students/$studentId').then((response) async {
       var jsonData = json.decode(response.body);
       if (jsonData['success']) {
         setState(() {
@@ -155,13 +156,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
-          // Container(
-          //   padding: EdgeInsets.all(8),
-          //   decoration: BoxDecoration(
-          //     color: BlockColor,
-          //     borderRadius: BorderRadius.circular(9),
-          //   ),
-          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -196,62 +190,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           SizedBox(
             height: 25,
-          ),
-          Container(
-            height: 44,
-            width: double.infinity,
-            margin: EdgeInsets.only(bottom: 10),
-            child: TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyWritingPage(),
-                  ),
-                );
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: BlockColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9),
-                ),
-              ),
-              child: Text(
-                'My Writings',
-                style: blackTextStyle.copyWith(
-                  fontSize: 14,
-                  fontWeight: bold,
-                ),
-              ),
-            ),
-          ),
-          Container(
-            height: 44,
-            width: double.infinity,
-            margin: EdgeInsets.only(bottom: 10),
-            child: TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MySummaryPage(),
-                  ),
-                );
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: BlockColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9),
-                ),
-              ),
-              child: Text(
-                'My Summary',
-                style: blackTextStyle.copyWith(
-                  fontSize: 14,
-                  fontWeight: bold,
-                ),
-              ),
-            ),
           ),
           Container(
             height: 44,
