@@ -58,42 +58,45 @@ class _MyWritingPageState extends State<MyWritingPage> {
         child: Icon(Icons.add),
         backgroundColor: AccentColor,
       ),
-      body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          children: [
-            TitleTextComponent(
-              text: 'My Writings',
-            ),
-            BlockComponent(),
-            this.isLoading
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : ListView.builder(
-                    itemCount: writings.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return ContentListItemComponent(
-                        isUsingImage: false,
-                        title: writings[index].title,
-                        image: writings[index].cover,
-                        description: writings[index].description,
-                        status: writings[index].status,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailWritingPage(
-                                Writing_id: writings[index].id,
+      body: RefreshIndicator(
+        onRefresh: () => fetchData(),
+        child: SafeArea(
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            children: [
+              TitleTextComponent(
+                text: 'My Writings',
+              ),
+              BlockComponent(),
+              this.isLoading
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView.builder(
+                      itemCount: writings.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return ContentListItemComponent(
+                          isUsingImage: false,
+                          title: writings[index].title,
+                          image: writings[index].cover,
+                          description: writings[index].description,
+                          status: writings[index].status,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailWritingPage(
+                                  Writing_id: writings[index].id,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      );
-                    }),
-          ],
+                            );
+                          },
+                        );
+                      }),
+            ],
+          ),
         ),
       ),
     );

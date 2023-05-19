@@ -17,6 +17,8 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
+  bool isShowPassword = false;
+
   _login() {
     var data = {
       'email': _usernameController.text,
@@ -33,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         print(jsonData);
         prefs.setString('token', jsonData['token']);
+
         prefs.setString(
             'student_id', jsonData['data']['student_id'].toString());
         Navigator.pushReplacement(
@@ -157,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
           Expanded(
             child: TextFormField(
               controller: _passwordController,
-              obscureText: true,
+              obscureText: isShowPassword,
               decoration: InputDecoration.collapsed(
                 hintText: 'Kata Sandi',
                 hintStyle: fontTextStyle.copyWith(
@@ -186,7 +189,11 @@ class _LoginPageState extends State<LoginPage> {
             height: 20,
             child: Checkbox(
               value: false,
-              onChanged: (value) {},
+              onChanged: (value) {
+                setState(() {
+                  isShowPassword = !isShowPassword;
+                });
+              },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               ),

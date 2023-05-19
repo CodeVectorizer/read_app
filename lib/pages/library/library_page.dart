@@ -50,39 +50,42 @@ class _LibraryPageState extends State<LibraryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MainColor,
-      body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          children: [
-            TitleTextComponent(
-              text: 'Library',
-            ),
-            BlockComponent(),
-            this.isLoading
-                ? Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    itemCount: books.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      print(books[index].is_read);
-                      return ContentListItemComponent(
-                        title: books[index].title,
-                        image: books[index].cover,
-                        description: books[index].description,
-                        isRead: books[index].is_read,
-                        status: books[index].author,
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    BookPage(book_id: books[index].id),
-                              ));
-                        },
-                      );
-                    }),
-          ],
+      body: RefreshIndicator(
+        onRefresh: () => fetchData(),
+        child: SafeArea(
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            children: [
+              TitleTextComponent(
+                text: 'Library',
+              ),
+              BlockComponent(),
+              this.isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                      itemCount: books.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        print(books[index].is_read);
+                        return ContentListItemComponent(
+                          title: books[index].title,
+                          image: books[index].cover,
+                          description: books[index].description,
+                          isRead: books[index].is_read,
+                          status: books[index].author,
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      BookPage(book_id: books[index].id),
+                                ));
+                          },
+                        );
+                      }),
+            ],
+          ),
         ),
       ),
     );

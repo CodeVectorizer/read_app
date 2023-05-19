@@ -67,16 +67,21 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: MainColor,
-        body: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          children: [
-            TitleTextComponent(
-              text: 'My Profile',
-            ),
-            profile(),
-          ],
+      child: RefreshIndicator(
+        onRefresh: () async {
+          fetchData();
+        },
+        child: Scaffold(
+          backgroundColor: MainColor,
+          body: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            children: [
+              TitleTextComponent(
+                text: 'My Profile',
+              ),
+              profile(),
+            ],
+          ),
         ),
       ),
     );

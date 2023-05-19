@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:read_app/config/CallApi.dart';
 import 'package:read_app/models/summary_model.dart';
 import 'package:read_app/theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SummaryHomePage extends StatefulWidget {
   const SummaryHomePage({super.key});
@@ -16,20 +17,25 @@ class _SummaryHomePageState extends State<SummaryHomePage> {
   // list variable
   var summaries = <SummaryModel>[];
   var isLoading = true;
+
   // method
-  fetchData() {
-    CallApi().getData('summaries').then((response) {
+  fetchData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? studentId = preferences.get('student_id').toString();
+    print(studentId);
+
+    CallApi().getData('summaries/$studentId/all').then((response) {
       var jsonData = json.decode(response.body);
+      print(jsonData);
       if (jsonData['success']) {
         Iterable list = jsonData['data'];
         print(list);
         setState(() {
-          isLoading = false;
           summaries =
               list.map((model) => SummaryModel.fromJson(model)).toList();
+          isLoading = false;
         });
       } else {
-        print('test');
         print(jsonData['message']);
       }
     });
@@ -46,24 +52,30 @@ class _SummaryHomePageState extends State<SummaryHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MainColor,
-      body: SafeArea(
-        child:
-            ListView(padding: EdgeInsets.symmetric(horizontal: 24), children: [
-          title(),
-          block(),
-          this.isLoading
-              ? Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                  itemCount: summaries.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Content(
-                      title: 'test',
-                      description: 'test',
-                    );
-                  }),
-        ]),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          fetchData();
+        },
+        child: SafeArea(
+          child: ListView(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              children: [
+                title(),
+                block(),
+                this.isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                        itemCount: summaries.length,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Content(
+                            title: 'test',
+                            description: 'test',
+                          );
+                        }),
+              ]),
+        ),
       ),
     );
   }

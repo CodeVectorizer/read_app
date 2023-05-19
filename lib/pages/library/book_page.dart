@@ -13,6 +13,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:read_app/utils/get_image.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BookPage extends StatefulWidget {
   final int? book_id;
@@ -29,7 +30,10 @@ class Book_PageState extends State<BookPage> {
   var isLoading = true;
 
   fetchData(int? book_id) async {
-    CallApi().getData('books/$book_id').then((response) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? studentId = preferences.get('student_id').toString();
+
+    CallApi().getData('books/$book_id/$studentId').then((response) async {
       var jsonData = json.decode(response.body);
       if (jsonData['success']) {
         setState(() {
@@ -67,20 +71,22 @@ class Book_PageState extends State<BookPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => AddSummaryPage(
-                        book_id: book.id,
-                      )));
-        },
-        backgroundColor: AccentColor,
-        child: Icon(
-          Icons.check,
-          color: MainColor,
-        ),
+      floatingActionButton: Visibility(
+        visible: book.is_read == false,
+        child: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddSummaryPage(
+                            book_id: book.id,
+                          )));
+            },
+            backgroundColor: AccentColor,
+            child: Icon(
+              Icons.check,
+              color: MainColor,
+            )),
       ),
       backgroundColor: BackgroundReadColor,
       body: SafeArea(
