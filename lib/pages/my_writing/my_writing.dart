@@ -79,10 +79,11 @@ class _MyWritingPageState extends State<MyWritingPage> {
                       itemBuilder: (context, index) {
                         return ContentListItemComponent(
                           isUsingImage: false,
+                          isUsingDescription: true,
                           title: writings[index].title,
                           image: writings[index].cover,
                           description: writings[index].description,
-                          status: writings[index].status,
+                          status: writings[index].student?.user?.name ?? '',
                           onTap: () {
                             Navigator.push(
                               context,

@@ -75,7 +75,7 @@ class Book_PageState extends State<BookPage> {
         visible: book.is_read == false,
         child: FloatingActionButton(
             onPressed: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => AddSummaryPage(

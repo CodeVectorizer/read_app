@@ -72,37 +72,6 @@ class _DetailWritingPageState extends State<DetailWritingPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FutureBuilder(
-                future: getImgUrl(null),
-                builder: (context, snapshot) {
-                  if (writing.cover != null) {
-                    return Image.network(
-                      writing.cover!,
-                      fit: BoxFit.cover,
-                      height: 200,
-                      width: double.infinity,
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        'Error',
-                        style: blackTextStyle.copyWith(
-                          fontSize: 20,
-                          fontWeight: bold,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                    );
-                  }
-                  return Center(
-                      child: Image.asset(
-                    'assets/images/no-image-square.png',
-                    fit: BoxFit.cover,
-                    height: 200,
-                    width: double.infinity,
-                  ));
-                },
-              ),
               SizedBox(
                 height: 30,
               ),

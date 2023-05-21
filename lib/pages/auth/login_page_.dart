@@ -188,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
             width: 20,
             height: 20,
             child: Checkbox(
-              value: false,
+              value: !isShowPassword,
               onChanged: (value) {
                 setState(() {
                   isShowPassword = !isShowPassword;

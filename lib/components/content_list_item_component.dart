@@ -8,6 +8,7 @@ class ContentListItemComponent extends StatelessWidget {
   final String? description;
   final String? status;
   final bool? isUsingImage;
+  final bool? isUsingDescription;
   final bool? isRead;
   final Function()? onTap;
 
@@ -20,6 +21,7 @@ class ContentListItemComponent extends StatelessWidget {
     this.onTap,
     this.isRead = false,
     this.isUsingImage = true,
+    this.isUsingDescription = false,
   }) : super(key: key);
 
   @override
@@ -48,6 +50,16 @@ class ContentListItemComponent extends StatelessWidget {
                       ),
                       textAlign: TextAlign.left,
                     ),
+                    !isUsingDescription!
+                        ? Container()
+                        : Text(
+                            description ?? '-',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 16,
+                              fontWeight: bold,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
                     Text(
                       status ?? '-',
                       style: blackTextStyle.copyWith(
