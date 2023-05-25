@@ -8,6 +8,10 @@ import 'package:read_app/pages/summary/summary_home.dart';
 import 'package:read_app/theme.dart';
 
 import 'package:read_app/components/title_text_component.dart';
+import 'package:read_app/utils/check_token.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'auth/login_page_.dart';
 
 class AddSummaryPage extends StatefulWidget {
   final int? book_id;
@@ -25,7 +29,7 @@ class _AddSummaryPageState extends State<AddSummaryPage> {
   BookModel book = BookModel();
   bool isLoading = true;
 
-  _postData() {
+  _postData() async {
     var data = {
       'title': judulController.text,
       'book_id': widget.book_id,
@@ -33,6 +37,9 @@ class _AddSummaryPageState extends State<AddSummaryPage> {
       'content': kontenController.text,
     };
 
+    if (await isTokenExpired()) {
+      signOut();
+    }
     CallApi().postData("summaries", data).then(
       (response) async {
         Map jsonData = await json.decode(response.body);
@@ -73,9 +80,17 @@ class _AddSummaryPageState extends State<AddSummaryPage> {
     );
   }
 
+  void signOut() async {
+    await Future.delayed(Duration(seconds: 3));
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+  }
+
   void initState() {
     super.initState();
-    fetchData(widget.book_id);
+    if (mounted) fetchData(widget.book_id);
   }
 
   @override
@@ -87,7 +102,7 @@ class _AddSummaryPageState extends State<AddSummaryPage> {
           padding: EdgeInsets.symmetric(horizontal: 24),
           children: [
             TitleTextComponent(
-              text: 'Summars',
+              text: 'Summarize',
             ),
             judul(),
             konten(),

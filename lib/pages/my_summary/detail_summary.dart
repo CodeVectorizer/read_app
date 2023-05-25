@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:read_app/config/CallApi.dart';
 import 'package:read_app/models/book_model.dart';
 import 'package:read_app/models/summary_model.dart';
+import 'package:read_app/pages/auth/login_page_.dart';
 import 'package:read_app/theme.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:read_app/components/title_text_component.dart';
 import 'package:http/http.dart' as http;
+import 'package:read_app/utils/check_token.dart';
 import 'package:read_app/utils/get_image.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailSummaryPage extends StatefulWidget {
   final int? summary_id;
@@ -27,6 +30,9 @@ class _DetailSummaryPageState extends State<DetailSummaryPage> {
   var isLoading = true;
 
   fetchData(int? summary_id) async {
+    if (await isTokenExpired()) {
+      signOut();
+    }
     CallApi().getData('summaries/$summary_id').then((response) async {
       var jsonData = json.decode(response.body);
       if (jsonData['success']) {
@@ -57,9 +63,17 @@ class _DetailSummaryPageState extends State<DetailSummaryPage> {
     });
   }
 
+  void signOut() async {
+    await Future.delayed(Duration(seconds: 3));
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+    Navigator.pushAndRemoveUntil(context as BuildContext,
+        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+  }
+
   @override
   void initState() {
-    fetchData(widget.summary_id);
+    if (mounted) fetchData(widget.summary_id);
     super.initState();
   }
 

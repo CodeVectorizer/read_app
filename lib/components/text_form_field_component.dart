@@ -33,6 +33,8 @@ class TextFormFieldComponent extends StatelessWidget {
       ),
       child: TextFormField(
         controller: textEditingController,
+        keyboardType: isTextArea ? TextInputType.multiline : TextInputType.text,
+        maxLines: isTextArea ? null : 1,
         decoration: InputDecoration.collapsed(
           hintText: hintText ?? text,
           hintStyle: blackTextStyle.copyWith(

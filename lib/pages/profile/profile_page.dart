@@ -8,6 +8,8 @@ import 'package:read_app/pages/my_summary/my_summary_page.dart';
 import 'package:read_app/pages/my_writing/my_writing.dart';
 import 'package:read_app/theme.dart';
 import 'package:read_app/components/title_text_component.dart';
+import 'package:read_app/utils/check_token.dart';
+import 'package:read_app/utils/logout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -27,7 +29,9 @@ class _ProfilePageState extends State<ProfilePage> {
   fetchData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? studentId = preferences.get('student_id').toString();
-
+    if (await isTokenExpired()) {
+      signOut();
+    }
     CallApi().getData('students/$studentId').then((response) async {
       var jsonData = json.decode(response.body);
       if (jsonData['success']) {
@@ -60,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     _loading = true;
     _progressValue = 0.0;
-    fetchData();
+    if (mounted) fetchData();
     super.initState();
   }
 

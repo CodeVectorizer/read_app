@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:read_app/config/CallApi.dart';
 import 'package:read_app/models/summary_model.dart';
+import 'package:read_app/pages/auth/login_page_.dart';
 import 'package:read_app/theme.dart';
+import 'package:read_app/utils/check_token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SummaryHomePage extends StatefulWidget {
@@ -22,7 +24,10 @@ class _SummaryHomePageState extends State<SummaryHomePage> {
   fetchData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? studentId = preferences.get('student_id').toString();
-    print(studentId);
+
+    if (await isTokenExpired()) {
+      signOut();
+    }
 
     CallApi().getData('summaries/$studentId/all').then((response) {
       var jsonData = json.decode(response.body);
@@ -41,10 +46,17 @@ class _SummaryHomePageState extends State<SummaryHomePage> {
     });
   }
 
+  void signOut() async {
+    await Future.delayed(Duration(seconds: 3));
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+  }
+
   @override
   void initState() {
-    print('initState()');
-    fetchData();
+    if (mounted) fetchData();
     super.initState();
   }
 

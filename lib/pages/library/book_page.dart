@@ -13,6 +13,8 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:read_app/utils/get_image.dart';
+import 'package:read_app/utils/check_token.dart';
+import 'package:read_app/utils/logout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BookPage extends StatefulWidget {
@@ -32,7 +34,9 @@ class Book_PageState extends State<BookPage> {
   fetchData(int? book_id) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? studentId = preferences.get('student_id').toString();
-
+    if (await isTokenExpired()) {
+      signOut();
+    }
     CallApi().getData('books/$book_id/$studentId').then((response) async {
       var jsonData = json.decode(response.body);
       if (jsonData['success']) {
@@ -64,7 +68,7 @@ class Book_PageState extends State<BookPage> {
 
   @override
   void initState() {
-    fetchData(widget.book_id);
+    if (mounted) fetchData(widget.book_id);
     super.initState();
   }
 

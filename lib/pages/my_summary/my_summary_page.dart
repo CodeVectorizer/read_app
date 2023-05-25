@@ -8,9 +8,11 @@ import 'package:read_app/components/title_text_component.dart';
 import 'package:read_app/config/CallApi.dart';
 import 'package:read_app/models/categories_model.dart';
 import 'package:read_app/models/summary_model.dart';
+import 'package:read_app/pages/auth/login_page_.dart';
 import 'package:read_app/pages/my_summary/add_summary_page.dart';
 import 'package:read_app/pages/my_summary/detail_summary.dart';
 import 'package:read_app/theme.dart';
+import 'package:read_app/utils/check_token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MySummaryPage extends StatefulWidget {
@@ -30,6 +32,7 @@ class _MySummaryPageState extends State<MySummaryPage> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? studentId = preferences.get('student_id').toString();
 
+    if (await isTokenExpired()) signOut();
     CallApi().getData('summaries/$studentId/all').then((response) {
       var jsonData = json.decode(response.body);
       if (jsonData['success']) {
@@ -46,9 +49,17 @@ class _MySummaryPageState extends State<MySummaryPage> {
     });
   }
 
+  void signOut() async {
+    await Future.delayed(Duration(seconds: 3));
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+  }
+
   @override
   void initState() {
-    fetchData();
+    if (mounted) fetchData();
     super.initState();
   }
 

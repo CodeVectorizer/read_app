@@ -26,16 +26,20 @@ class _LoginPageState extends State<LoginPage> {
     };
     CallApi().postData("login", data).then((response) async {
       var jsonData = await json.decode(response.body);
+
       if (jsonData['success']) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(jsonData['message']),
           ),
         );
+
         SharedPreferences prefs = await SharedPreferences.getInstance();
+        final expirationTime = DateTime.now()
+            .add(Duration(hours: 1)); // Adjust expiration time as needed
         print(jsonData);
         prefs.setString('token', jsonData['token']);
-
+        prefs.setInt('expiration', expirationTime.millisecondsSinceEpoch);
         prefs.setString(
             'student_id', jsonData['data']['student_id'].toString());
         Navigator.pushReplacement(

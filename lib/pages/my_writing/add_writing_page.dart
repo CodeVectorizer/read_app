@@ -7,11 +7,13 @@ import 'package:read_app/components/text_form_field_component.dart';
 import 'package:read_app/components/button_submit_component.dart';
 import 'package:read_app/components/title_text_component.dart';
 import 'package:read_app/config/CallApi.dart';
+import 'package:read_app/pages/auth/login_page_.dart';
 import 'package:read_app/pages/my_summary/my_summary_page.dart';
 import 'package:read_app/pages/my_writing/choose_writing_category_page.dart';
 import 'package:read_app/pages/my_writing/my_writing.dart';
 import 'package:read_app/theme.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:read_app/utils/check_token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddWritingPage extends StatefulWidget {
@@ -23,14 +25,12 @@ class AddWritingPage extends StatefulWidget {
 }
 
 class _AddWritingPageState extends State<AddWritingPage> {
-  // File? _image = null;
-  // PickedFile _imageFile = PickedFile('');
-
   TextEditingController _titleController = TextEditingController();
   TextEditingController _contentController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
 
   _postData() async {
+    if (await isTokenExpired()) signOut();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? studentId = preferences.get('student_id').toString();
 
@@ -62,6 +62,14 @@ class _AddWritingPageState extends State<AddWritingPage> {
         );
       }
     });
+  }
+
+  void signOut() async {
+    await Future.delayed(Duration(seconds: 3));
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
   }
 
   @override

@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:read_app/config/CallApi.dart';
 import 'package:read_app/theme.dart';
+
+import 'login_page_.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -9,6 +14,45 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _numberPhoneController = TextEditingController();
+  TextEditingController _addressController = TextEditingController();
+
+  _postData() async {
+    Map data = {
+      'name': _nameController.text,
+      'email': _emailController.text,
+      'password': _passwordController.text,
+      'number_phone': _numberPhoneController.text,
+      'address': _addressController.text,
+    };
+    CallApi().postData("register", data).then((response) async {
+      var jsonData = await json.decode(response.body);
+
+      if (jsonData['success']) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(jsonData['message']),
+          ),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(jsonData['message']),
+          ),
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +63,7 @@ class _RegisterPageState extends State<RegisterPage> {
           children: [
             logo(),
             title(),
+            email(),
             telephoneEmail(),
             nama(),
             katasandi(),
@@ -62,6 +107,27 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  Widget email() {
+    return Container(
+      margin: EdgeInsets.only(top: 60),
+      padding: EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: ContentColor,
+        borderRadius: BorderRadius.circular(9),
+      ),
+      child: TextFormField(
+        controller: _emailController,
+        decoration: InputDecoration.collapsed(
+          hintText: 'Email',
+          hintStyle: fontTextStyle.copyWith(
+            fontSize: 16,
+            fontWeight: regular,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget telephoneEmail() {
     return Container(
       margin: EdgeInsets.only(top: 60),
@@ -71,8 +137,9 @@ class _RegisterPageState extends State<RegisterPage> {
         borderRadius: BorderRadius.circular(9),
       ),
       child: TextFormField(
+        controller: _numberPhoneController,
         decoration: InputDecoration.collapsed(
-          hintText: 'No Telephone/Email',
+          hintText: 'No Telephone',
           hintStyle: fontTextStyle.copyWith(
             fontSize: 16,
             fontWeight: regular,
@@ -91,6 +158,7 @@ class _RegisterPageState extends State<RegisterPage> {
         borderRadius: BorderRadius.circular(9),
       ),
       child: TextFormField(
+        controller: _nameController,
         decoration: InputDecoration.collapsed(
           hintText: 'Nama',
           hintStyle: fontTextStyle.copyWith(
@@ -114,6 +182,7 @@ class _RegisterPageState extends State<RegisterPage> {
         children: [
           Expanded(
             child: TextFormField(
+              controller: _passwordController,
               obscureText: true,
               decoration: InputDecoration.collapsed(
                 hintText: 'Kata Sandi',
@@ -171,7 +240,7 @@ class _RegisterPageState extends State<RegisterPage> {
       width: double.infinity,
       child: TextButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/');
+          _postData();
         },
         style: TextButton.styleFrom(
           backgroundColor: AccentColor,

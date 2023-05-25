@@ -6,10 +6,13 @@ import 'package:read_app/components/content_list_item_component.dart';
 import 'package:read_app/components/title_text_component.dart';
 import 'package:read_app/config/CallApi.dart';
 import 'package:read_app/models/writing_model.dart';
+import 'package:read_app/pages/auth/login_page_.dart';
 import 'package:read_app/pages/my_summary/detail_summary.dart';
 import 'package:read_app/pages/my_writing/choose_writing_category_page.dart';
 import 'package:read_app/pages/my_writing/detail_writing.dart';
 import 'package:read_app/theme.dart';
+import 'package:read_app/utils/check_token.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyWritingPage extends StatefulWidget {
   const MyWritingPage({super.key});
@@ -19,10 +22,13 @@ class MyWritingPage extends StatefulWidget {
 }
 
 class _MyWritingPageState extends State<MyWritingPage> {
-  var writings = <WritingModel>[];
+  List<WritingModel> writings = <WritingModel>[];
   var isLoading = true;
-  // method
-  fetchData() {
+
+  fetchData() async {
+    if (await isTokenExpired()) {
+      signOut();
+    }
     CallApi().getData('writings').then((response) {
       var jsonData = json.decode(response.body);
       if (jsonData['success']) {
@@ -38,9 +44,17 @@ class _MyWritingPageState extends State<MyWritingPage> {
     });
   }
 
+  void signOut() async {
+    await Future.delayed(Duration(seconds: 3));
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+  }
+
   @override
   void initState() {
-    fetchData();
+    if (mounted) fetchData();
     super.initState();
   }
 
@@ -59,7 +73,7 @@ class _MyWritingPageState extends State<MyWritingPage> {
         backgroundColor: AccentColor,
       ),
       body: RefreshIndicator(
-        onRefresh: () => fetchData(),
+        onRefresh: () async => fetchData(),
         child: SafeArea(
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: 24),

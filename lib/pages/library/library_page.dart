@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:read_app/config/CallApi.dart';
 import 'package:read_app/models/book_model.dart';
+import 'package:read_app/pages/auth/login_page_.dart';
 import 'package:read_app/pages/library/book_page.dart';
 import 'package:read_app/theme.dart';
 import 'package:read_app/components/title_text_component.dart';
 import 'package:read_app/components/content_list_item_component.dart';
 import 'package:read_app/components/block_component.dart';
+import 'package:read_app/utils/check_token.dart';
+import 'package:read_app/utils/logout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LibraryPage extends StatefulWidget {
@@ -24,7 +27,9 @@ class _LibraryPageState extends State<LibraryPage> {
   fetchData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? studentId = preferences.get('student_id').toString();
-
+    if (await isTokenExpired()) {
+      signOut();
+    }
     CallApi().getData('books/$studentId/all').then((response) {
       var jsonData = json.decode(response.body);
       if (jsonData['success']) {
@@ -40,9 +45,17 @@ class _LibraryPageState extends State<LibraryPage> {
     });
   }
 
+  void signOut() async {
+    await Future.delayed(Duration(seconds: 3));
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+  }
+
   @override
   void initState() {
-    fetchData();
+    if (mounted) fetchData();
     super.initState();
   }
 

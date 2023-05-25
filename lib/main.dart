@@ -14,6 +14,7 @@ import 'package:read_app/pages/my_writing/add_writing_page.dart';
 import 'package:read_app/pages/my_writing/choose_writing_category_page.dart';
 import 'package:read_app/pages/my_writing/my_writing.dart';
 import 'package:read_app/pages/test_pdf_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
