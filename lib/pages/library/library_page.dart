@@ -88,7 +88,7 @@ class _LibraryPageState extends State<LibraryPage> {
                           isRead: books[index].is_read,
                           status: books[index].author,
                           onTap: () {
-                            Navigator.pushReplacement(
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>

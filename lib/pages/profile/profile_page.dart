@@ -56,8 +56,13 @@ class _ProfilePageState extends State<ProfilePage> {
     await Future.delayed(Duration(seconds: 3));
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
-    Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) => LoginPage(
+                  isSessionExpired: false,
+                )),
+        (route) => false);
   }
 
   @override

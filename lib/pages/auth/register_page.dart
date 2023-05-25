@@ -19,6 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _numberPhoneController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
+  TextEditingController _agencyController = TextEditingController();
 
   _postData() async {
     Map data = {
@@ -27,6 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
       'password': _passwordController.text,
       'number_phone': _numberPhoneController.text,
       'address': _addressController.text,
+      'agency': _agencyController.text
     };
     CallApi().postData("register", data).then((response) async {
       var jsonData = await json.decode(response.body);

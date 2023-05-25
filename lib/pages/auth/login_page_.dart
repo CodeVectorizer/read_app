@@ -7,7 +7,8 @@ import 'package:read_app/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final bool? isSessionExpired;
+  const LoginPage({super.key, this.isSessionExpired = true});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -74,8 +75,17 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     // TODO: implement initState
+    if (mounted) {
+      if (widget.isSessionExpired == true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Session expired, please login again'),
+          ),
+        );
+      }
+      loginCheck();
+    }
     super.initState();
-    loginCheck();
   }
 
   @override

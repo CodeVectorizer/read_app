@@ -50,7 +50,7 @@ class _AddWritingPageState extends State<AddWritingPage> {
             content: Text(jsonData['message']),
           ),
         );
-        Navigator.pushReplacement(
+        Navigator.pop(
           context,
           MaterialPageRoute(builder: (context) => MyWritingPage()),
         );
