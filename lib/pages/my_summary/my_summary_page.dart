@@ -96,6 +96,7 @@ class _MySummaryPageState extends State<MySummaryPage> {
                               title: summaries[index].book?.title,
                               image: summaries[index].book?.cover,
                               description: summaries[index].content,
+                              status: summaries[index].book?.author,
                               onTap: () {
                                 Navigator.push(
                                     context,
